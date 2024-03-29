@@ -2,17 +2,17 @@ package org.d3if3068.assesment1.pinjamaku.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -21,7 +21,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -79,7 +78,9 @@ fun DetailScreen() {
 @Composable
 fun ContentDetail(modifier: Modifier) {
     Column(
-        modifier = modifier.padding(horizontal = 24.dp),
+        modifier = modifier
+            .padding(horizontal = 24.dp)
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         Box(
@@ -153,6 +154,7 @@ fun ContentDetail(modifier: Modifier) {
                 .fillMaxWidth()
                 .border(1.dp, Utama, RoundedCornerShape(4.dp))
                 .padding(10.dp)
+                .verticalScroll(rememberScrollState())
         ) {
             Text(
                 text = "Si jaki ini teman sekolah dulu, saya kenal dia dari sejak smp sesekolah dan sma pun selalu bersama selalu. pokoknya banyak lah ya yang bisa diingat dari si jaki ini.",
