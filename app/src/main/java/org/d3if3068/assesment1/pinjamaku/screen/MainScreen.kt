@@ -36,7 +36,7 @@ fun MainScreen() {
                     Image(
                         painter = painterResource(id = R.drawable.logo),
                         contentDescription = "Logo",
-                        Modifier.size(110.dp)
+                        Modifier.size(130.dp)
                     )
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(

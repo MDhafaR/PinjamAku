@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">PinjamAku</string>
+    <string name="kembali">kembali</string>
+    <string name="label_nama">Nama</string>
+    <string name="nama_asli">Nama asli anda</string>
+    <string name="tambah_orang">tambah orang</string>
+    <string name="text_jenis_kelamin">Jenis Kelamin</string>
+    <string name="pria">Pria</string>
+    <string name="wanita">Wanita</string>
+    <string name="barang_pinjaman">Barang pinjaman</string>
+    <string name="barang">barang</string>
+    <string name="kontak_telephone">Kontak telephone</string>
+    <string name="telephone">Telephone</string>
+    <string name="harga">harga</string>
+    <string name="tanggal_peminjaman">Tanggal Peminjaman</string>
+    <string name="save">save</string>
 </resources>
