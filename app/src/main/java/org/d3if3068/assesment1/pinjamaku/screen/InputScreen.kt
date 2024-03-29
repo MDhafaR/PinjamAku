@@ -91,7 +91,7 @@ fun InputScreen() {
                 actions = {
                     Column(
                         modifier = Modifier
-                            .clickable {  }
+                            .clickable { }
                             .padding(top = 3.dp)
                     ) {
                         IconButton(onClick = { null }) {
@@ -139,14 +139,26 @@ fun ContentInput(modifier: Modifier) {
     month = calendar.get(Calendar.MONTH)
     year = calendar.get(Calendar.YEAR)
     calendar.time = Date()
-    val date = remember {
+    val datePinjam = remember {
+        mutableStateOf("")
+    }
+    val dateKembali = remember {
         mutableStateOf("")
     }
     val context = LocalContext.current
-    val datePickerDialog = DatePickerDialog(
+    val datePickerDialogPinjam = DatePickerDialog(
         context,
         { _: DatePicker, year: Int, month: Int, day: Int ->
-            date.value = "$day-$month-$year"
+            datePinjam.value = "$day-$month-$year"
+        },
+        year,
+        month,
+        day
+    )
+    val datePickerDialogKembali = DatePickerDialog(
+        context,
+        { _: DatePicker, year: Int, month: Int, day: Int ->
+            dateKembali.value = "$day-$month-$year"
         },
         year,
         month,
@@ -288,7 +300,7 @@ fun ContentInput(modifier: Modifier) {
             Row(
                 modifier = Modifier
                     .border(1.dp, Utama, RoundedCornerShape(4.dp))
-                    .clickable { datePickerDialog.show() }
+                    .clickable { datePickerDialogPinjam.show() }
                     .fillMaxWidth()
                     .height(50.dp)
                     .padding(start = 10.dp),
@@ -300,7 +312,7 @@ fun ContentInput(modifier: Modifier) {
                     modifier = Modifier.size(30.dp)
                 )
                 Text(
-                    text = date.value,
+                    text = datePinjam.value,
                     fontSize = 20.sp,
                     modifier = Modifier.padding(start = 10.dp),
                     color = Utama
@@ -320,7 +332,7 @@ fun ContentInput(modifier: Modifier) {
             Row(
                 modifier = Modifier
                     .border(1.dp, Utama, RoundedCornerShape(4.dp))
-                    .clickable { datePickerDialog.show() }
+                    .clickable { datePickerDialogKembali.show() }
                     .fillMaxWidth()
                     .height(50.dp)
                     .padding(start = 10.dp),
@@ -332,7 +344,7 @@ fun ContentInput(modifier: Modifier) {
                     modifier = Modifier.size(30.dp)
                 )
                 Text(
-                    text = date.value,
+                    text = dateKembali.value,
                     fontSize = 20.sp,
                     modifier = Modifier.padding(start = 10.dp),
                     color = Utama
@@ -356,7 +368,7 @@ fun ContentInput(modifier: Modifier) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text(text = "Foto",
+                Text(text = stringResource(R.string.foto),
                     fontSize = 16.sp,
                     color = Utama,
                     fontWeight = FontWeight.SemiBold)
