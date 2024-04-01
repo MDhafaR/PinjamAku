@@ -36,4 +36,5 @@
     <string name="tambahkan_data_baru">Add New Data</string>
     <string name="hapus">Delete</string>
     <string name="pria">Man</string>
+    <string name="bagikan_tamplate">Name of Borrower: %1\\$s\\nTotal Price: Rp.%2\\$s\\nPerday Price: Rp.%3\\$s\\nName of Item Borrowed: %4\\$s\\nDescription: %5\\$s\\ nContact: %6\\$s\\nBorrow Date: %7\\$s\\nMaturity Date: %8\\$s\\n</string>
 </resources>

@@ -35,4 +35,5 @@
     <string name="tambahkan_data_baru">Tambahkan Data Baru</string>
     <string name="hapus">Hapus</string>
     <string name="pria">Pria</string>
+    <string name="bagikan_tamplate">Nama Peminjam: %1\$s\nTotal Harga: Rp.%2\$s\nHarga Perharinya: Rp.%3\$s\nNama Barang Yang Dipinjam: %4\$s\nDeskripsi: %5\$s\nKontak: %6\$s\nTanggal Pinjam: %7\$s\nTanggal Jatuh Tempo: %8\$s\n</string>
 </resources>

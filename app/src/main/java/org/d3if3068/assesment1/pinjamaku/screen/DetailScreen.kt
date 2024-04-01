@@ -1,9 +1,13 @@
 package org.d3if3068.assesment1.pinjamaku.screen
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,6 +19,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -27,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -79,9 +86,13 @@ fun DetailScreen(
                 )
             )
         }
-    ) {padding ->
+    ) { padding ->
         if (note != null) {
-            DetailContent(pinjamState = state, modifier = Modifier.padding(padding), productId = pinjamId )
+            DetailContent(
+                pinjamState = state,
+                modifier = Modifier.padding(padding),
+                productId = pinjamId
+            )
         } else {
             NotFoundContent()
         }
@@ -89,13 +100,15 @@ fun DetailScreen(
 }
 
 
+@SuppressLint("StringFormatInvalid")
 @Composable
 fun DetailContent(
     pinjamState: PinjamState,
     productId: String?,
     modifier: Modifier
 ) {
-    val product = pinjamState.dataPinjam.find { it.id.toString() == productId } // Mendapatkan produk dari indeks yang diberikan
+    val product =
+        pinjamState.dataPinjam.find { it.id.toString() == productId } // Mendapatkan produk dari indeks yang diberikan
 
     val datePinjam = product?.tanggalPinjam
     val dateKembali = product?.tanggalTempo
@@ -107,7 +120,8 @@ fun DetailContent(
 
 // Calculate total price
     val hargaPerHari = product?.harga
-    val durasiPeminjaman = ((datePinjam?.let { dateKembali?.minus(it) })?.div((24 * 60 * 60 * 1000)))?.toInt()
+    val durasiPeminjaman =
+        ((datePinjam?.let { dateKembali?.minus(it) })?.div((24 * 60 * 60 * 1000)))?.toInt()
     val hargaTotal = hargaPerHari?.let {
         durasiPeminjaman?.let { duration ->
             calculateTotalPrice(it, duration)
@@ -123,7 +137,7 @@ fun DetailContent(
         LazyColumn(
             modifier = modifier.padding(horizontal = 24.dp)
         ) {
-            item{
+            item {
                 Box(
                     Modifier.height(16.dp)
                 )
@@ -171,7 +185,7 @@ fun DetailContent(
                 }
                 Text(
                     modifier = Modifier.padding(top = 24.dp),
-                    text = "Rp.${product.harga} / "+stringResource(R.string.hari),
+                    text = "Rp.${product.harga} / " + stringResource(R.string.hari),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Utama
@@ -291,6 +305,30 @@ fun DetailContent(
                         }
                     }
                 )
+                val context = LocalContext.current
+                Button(
+                    modifier = Modifier.padding(top = 24.dp),
+                    colors = ButtonDefaults.buttonColors(UtamaBerat),
+                    onClick = {
+                        shareData(
+                            context = context,
+                            messege = context.getString(
+                                R.string.bagikan_tamplate,
+                                product.nama,
+                                hargaTotal.toString(),
+                                product.harga.toString(),
+                                product.namaBarang,
+                                product.deskripsi,
+                                product.kontak,
+                                tanggalPinjamFormatted.toString(),
+                                tanggalTempoFormatted.toString()
+                            )
+                        )
+                    },
+                    contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
+                ) {
+                    Text(text = "bagikan")
+                }
                 Box(
                     Modifier.height(24.dp)
                 )
@@ -298,6 +336,17 @@ fun DetailContent(
         }
     } else {
         Text(stringResource(R.string.produk_tidak_ditemukan))
+    }
+}
+
+@SuppressLint("QueryPermissionsNeeded")
+private fun shareData(context: Context, messege: String) {
+    val shareIntent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, messege)
+    }
+    if (shareIntent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(shareIntent)
     }
 }
 
