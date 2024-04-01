@@ -21,32 +21,32 @@ class PinjamViewModel(
 
     private val isSortedByDateAdded = MutableStateFlow(true)
 
-    private var notes =
+    private var dataPeminjaman =
         isSortedByDateAdded.flatMapLatest { sort ->
             dao.getDataPinjamOrderdByTitle()
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
     val _state = MutableStateFlow(PinjamState())
     val state =
-        combine(_state, isSortedByDateAdded, notes) { state, isSortedByDateAdded, notes ->
+        combine(_state, isSortedByDateAdded, dataPeminjaman) { state, isSortedByDateAdded, dataPeminjaman ->
             state.copy(
-                notes = notes
+                dataPinjam = dataPeminjaman
             )
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), PinjamState())
 
     fun onEvent(event: PinjamEvent) {
         when (event) {
-            is PinjamEvent.DeleteNote -> {
+            is PinjamEvent.HapusBarang -> {
                 viewModelScope.launch {
-                    dao.deleteDataPinjam(event.note)
+                    dao.deleteDataPinjam(event.pinjam)
                 }
             }
 
-            is PinjamEvent.SaveNote -> {
+            is PinjamEvent.SimpanBarang -> {
 
                 val pinjam = Pinjam(
-                    nama = state.value.title.value,
-                    deskripsi = state.value.description.value,
+                    nama = state.value.nama.value,
+                    deskripsi = state.value.deskripsi.value,
                     harga = state.value.harga.value,
                     namaBarang = state.value.namaBarang.value,
                     kontak = state.value.kontak.value,
@@ -63,8 +63,8 @@ class PinjamViewModel(
 
                 _state.update {
                     it.copy(
-                        title = mutableStateOf(""),
-                        description = mutableStateOf(""),
+                        nama = mutableStateOf(""),
+                        deskripsi = mutableStateOf(""),
                         harga = mutableIntStateOf(0),
                         selectedJenisKelamin = mutableStateOf(null), // Mengatur kembali jenis kelamin yang dipilih menjadi null setelah menyimpan
                         namaBarang = mutableStateOf(""),
@@ -76,7 +76,7 @@ class PinjamViewModel(
                 }
             }
 
-            PinjamEvent.SortNotes -> {
+            PinjamEvent.sortDataPinjam -> {
                 isSortedByDateAdded.value = !isSortedByDateAdded.value
             }
 

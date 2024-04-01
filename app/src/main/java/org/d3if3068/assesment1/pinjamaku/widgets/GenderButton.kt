@@ -1,50 +1,47 @@
 package org.d3if3068.assesment1.pinjamaku.widgets
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonColors
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.d3if3068.assesment1.pinjamaku.ui.theme.PinjamAkuTheme
 import org.d3if3068.assesment1.pinjamaku.ui.theme.Utama
 import org.d3if3068.assesment1.pinjamaku.ui.theme.UtamaBerat
 
 @Composable
-fun GenderButton(label: String, isSelected: Boolean, modifier: Modifier) {
+fun GenderButton(
+    jenisKelamin: String,
+    isSelected: Boolean,
+    onJenisKelaminSelected: (String) -> Unit,
+    error: Boolean
+) {
+    val warnaError = if (error) Color.Red else Utama
+
     Row(
-        modifier = modifier,
+        modifier = Modifier.clickable { onJenisKelaminSelected(jenisKelamin) }.padding(end = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         RadioButton(
             selected = isSelected,
-            onClick = null,
+            onClick = { onJenisKelaminSelected(jenisKelamin) },
             colors = RadioButtonDefaults.colors(
-                unselectedColor = Utama,
+                unselectedColor = warnaError,
                 selectedColor = UtamaBerat
             )
         )
         Text(
-            text = label,
+            text = jenisKelamin,
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(start = 8.dp),
-            color = Utama,
+            color = warnaError,
             fontSize = 20.sp
         )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GenderButtonPrev() {
-    PinjamAkuTheme {
-        GenderButton(label = "contoh", isSelected = true, modifier = Modifier)
     }
 }

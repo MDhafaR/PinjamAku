@@ -8,9 +8,9 @@ import org.d3if3068.assesment1.pinjamaku.model.Pinjam
 
 data class PinjamState(
 
-    val notes: List<Pinjam> = emptyList(),
-    val title: MutableState<String> = mutableStateOf(""),
-    val description: MutableState<String> = mutableStateOf(""),
+    val dataPinjam: List<Pinjam> = emptyList(),
+    val nama: MutableState<String> = mutableStateOf(""),
+    val deskripsi: MutableState<String> = mutableStateOf(""),
     val harga: MutableState<Int> = mutableIntStateOf(0),
     val jenisKelaminOptions: List<String> = listOf("Pria", "Wanita"), // Pilihan jenis kelamin
     val selectedJenisKelamin: MutableState<String?> = mutableStateOf(null),

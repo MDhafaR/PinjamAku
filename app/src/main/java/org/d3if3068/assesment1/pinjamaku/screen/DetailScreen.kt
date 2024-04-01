@@ -2,7 +2,6 @@ package org.d3if3068.assesment1.pinjamaku.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -23,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,22 +33,30 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import org.d3if3068.assesment1.pinjamaku.R
-import org.d3if3068.assesment1.pinjamaku.ui.theme.PinjamAkuTheme
+import org.d3if3068.assesment1.pinjamaku.data.PinjamState
 import org.d3if3068.assesment1.pinjamaku.ui.theme.Utama
 import org.d3if3068.assesment1.pinjamaku.ui.theme.UtamaBerat
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen() {
+fun DetailScreen(
+    pinjamId: String?,
+    state: PinjamState,
+    navController: NavController
+) {
+    val note = state.dataPinjam.find { it.id.toString() == pinjamId }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             tint = Color.White,
                             modifier = Modifier.size(35.dp),
@@ -70,174 +79,236 @@ fun DetailScreen() {
                 )
             )
         }
-    ) { padding ->
-        ContentDetail(modifier = Modifier.padding(padding))
+    ) {padding ->
+//            DetailContent(note = note,Modifier.padding(padding))
+        if (note != null) {
+            DetailContent(noteState = state, modifier = Modifier.padding(padding), productId = pinjamId )
+        } else {
+            NotFoundContent()
+        }
     }
 }
 
+
 @Composable
-fun ContentDetail(modifier: Modifier) {
-    Column(
-        modifier = modifier
-            .padding(horizontal = 24.dp)
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        Box(
-            Modifier.height(5.dp)
-        )
+fun DetailContent(
+    noteState: PinjamState,
+    productId: String?,
+    modifier: Modifier
+) {
+    val product = noteState.dataPinjam.find { it.id.toString() == productId } // Mendapatkan produk dari indeks yang diberikan
+
+    var datePinjam = product?.tanggalPinjam
+    val dateKembali = product?.tanggalTempo
+
+    // Calculate total price based on daily price and duration
+    fun calculateTotalPrice(pricePerDay: Int, durationInDays: Int): Int {
+        return pricePerDay * durationInDays
+    }
+
+// Calculate total price
+    val hargaPerHari = product?.harga
+    val durasiPeminjaman = ((datePinjam?.let { dateKembali?.minus(it) })?.div((24 * 60 * 60 * 1000)))?.toInt()
+    val hargaTotal = hargaPerHari?.let {
+        durasiPeminjaman?.let { duration ->
+            calculateTotalPrice(it, duration)
+        }
+    }
 
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically
+    if (product != null) {
+        val dateFormat = remember { SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()) }
+        val tanggalPinjamFormatted = dateFormat.format(product.tanggalPinjam)
+        val tanggalTempoFormatted = dateFormat.format(product.tanggalTempo)
+
+        LazyColumn(
+            modifier = modifier.padding(horizontal = 24.dp)
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.dummy_foto),
-                contentDescription = stringResource(
-                    id = R.string.foto
-                ),
-                Modifier.size(80.dp)
-            )
-            Column(
-                modifier = Modifier.padding(start = 30.dp)
-            ) {
+            item{
+                Box(
+                    Modifier.height(16.dp)
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.dummy_foto),
+                        contentDescription = "Foto Produk",
+                        Modifier.size(80.dp)
+                    )
+                    Column(
+                        modifier = Modifier.padding(start = 30.dp)
+                    ) {
+                        Text(
+                            buildAnnotatedString {
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = Utama,
+                                        fontSize = 24.sp,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                ) {
+                                    append("${product.nama} | ")
+                                }
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = Utama,
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.SemiBold
+                                    ),
+                                ) {
+                                    append(product.jenisKelamin ?: "-")
+                                }
+                            }
+                        )
+                        Text(
+                            modifier = Modifier.padding(top = 8.dp),
+                            text = "Rp.$hargaTotal",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = UtamaBerat
+                        )
+                    }
+                }
                 Text(
-                    text = "Ini Jeki",
-                    fontSize = 24.sp,
+                    modifier = Modifier.padding(top = 24.dp),
+                    text = "Rp.${product.harga} / hari",
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Utama
                 )
                 Text(
-                    text = "40000",
+                    modifier = Modifier.padding(top = 24.dp),
+                    text = buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                color = UtamaBerat,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        ) {
+                            append("Barang pinjaman : ")
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                color = Utama,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        ) {
+                            append(product.namaBarang)
+                        }
+                    }
+                )
+                Text(
+                    modifier = Modifier.padding(top = 24.dp),
+                    text = "Deskripsi :",
+                    color = UtamaBerat,
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = UtamaBerat
+                    fontWeight = FontWeight.SemiBold
+                )
+                Column(
+                    modifier = Modifier
+                        .height(240.dp)
+                        .padding(top = 16.dp)
+                        .fillMaxWidth()
+                        .border(1.dp, Utama, RoundedCornerShape(4.dp))
+                        .padding(10.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Text(
+                        text = product.deskripsi,
+                        color = Utama,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+                Text(
+                    modifier = Modifier.padding(top = 24.dp),
+                    text = buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                color = UtamaBerat,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        ) {
+                            append("Kontak : ")
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                color = Utama,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        ) {
+                            append(product.kontak)
+                        }
+                    }
+                )
+                Text(
+                    modifier = Modifier.padding(top = 24.dp),
+                    text = buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                color = UtamaBerat,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        ) {
+                            append("Tanggal pinjam : ")
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                color = Utama,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        ) {
+                            append(tanggalPinjamFormatted)
+                        }
+                    }
+                )
+                Text(
+                    modifier = Modifier.padding(top = 24.dp),
+                    text = buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                color = UtamaBerat,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        ) {
+                            append("Tanggal tempo : ")
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                color = Utama,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        ) {
+                            append(tanggalTempoFormatted)
+                        }
+                    }
+                )
+                Box(
+                    Modifier.height(24.dp)
                 )
             }
         }
-        Text(
-            text = "10000 / hari",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = Utama
-        )
-        Text(
-            buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = UtamaBerat,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                ) {
-                    append("Barang pinjaman : ")
-                }
-                withStyle(
-                    style = SpanStyle(
-                        color = Utama,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                ) {
-                    append("Sunlight")
-                }
-            })
-        Text(
-            text = "Deskripsi :",
-            color = UtamaBerat,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.SemiBold
-        )
-        Column(
-            modifier = Modifier
-                .height(240.dp)
-                .fillMaxWidth()
-                .border(1.dp, Utama, RoundedCornerShape(4.dp))
-                .padding(10.dp)
-                .verticalScroll(rememberScrollState())
-        ) {
-            Text(
-                text = "Si jaki ini teman sekolah dulu, saya kenal dia dari sejak smp sesekolah dan sma pun selalu bersama selalu. pokoknya banyak lah ya yang bisa diingat dari si jaki ini.",
-                color = Utama,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-        }
-        Text(
-            buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = UtamaBerat,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                ) {
-                    append("Kontak : ")
-                }
-                withStyle(
-                    style = SpanStyle(
-                        color = Utama,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                ) {
-                    append("081234567892")
-                }
-            })
-        Text(
-            buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = UtamaBerat,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                ) {
-                    append("Tanggal pinjam : ")
-                }
-                withStyle(
-                    style = SpanStyle(
-                        color = Utama,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                ) {
-                    append("20 - 12 - 2024")
-                }
-            })
-        Text(
-            buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = UtamaBerat,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                ) {
-                    append("Tanggal tempo : ")
-                }
-                withStyle(
-                    style = SpanStyle(
-                        color = Utama,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                ) {
-                    append("24 - 12 - 2024")
-                }
-            })
-
-
-        Box(
-            Modifier.height(24.dp)
-        )
+    } else {
+        Text("Produk tidak ditemukan")
     }
 }
 
-@Preview
 @Composable
-fun DetailScreenPrev() {
-    PinjamAkuTheme {
-        DetailScreen()
-    }
+fun NotFoundContent() {
+    Text(
+        text = "Catatan tidak ditemukan",
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color.Red,
+        modifier = Modifier.padding(16.dp)
+    )
 }

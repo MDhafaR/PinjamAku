@@ -4,13 +4,13 @@ import android.net.Uri
 import org.d3if3068.assesment1.pinjamaku.model.Pinjam
 
 sealed interface PinjamEvent {
-    object SortNotes : PinjamEvent
+    object sortDataPinjam : PinjamEvent
 
-    data class DeleteNote(val note: Pinjam) : PinjamEvent
+    data class HapusBarang(val pinjam: Pinjam) : PinjamEvent
 
-    data class SaveNote(
-        val title: String,
-        val description: String,
+    data class SimpanBarang(
+        val nama: String,
+        val deskripsi: String,
         val harga: Int,
         val jenisKelamin: String?, // Menambahkan properti jenis kelamin ke event SaveNote
         val namaBarang: String,

@@ -16,31 +16,31 @@ fun NavGraph(viewModel: PinjamViewModel) {
     val state by viewModel.state.collectAsState()
     val navController = rememberNavController()
 
-    NavHost(navController= navController, startDestination = "NotesScreen") {
-        composable("NotesScreen") {
+    NavHost(navController= navController, startDestination = "MainScreen") {
+        composable("MainScreen") {
             MainScreen(
-//                state = state,
-//                navController = navController,
-//                onEvent = viewModel::onEvent
+                state = state,
+                navController = navController,
+                onEvent = viewModel::onEvent
             )
         }
-        composable("AddNoteScreen") {
+        composable("InputScreen") {
             InputScreen(
-//                state = state,
-//                navController = navController,
-//                onEvent = viewModel::onEvent
+                state = state,
+                navController = navController,
+                onEvent = viewModel::onEvent
             )
         }
 
-        composable("DetailScreen/{noteId}") { backStackEntry ->
-            val noteId = backStackEntry.arguments?.getString("noteId")
-            val note = state.notes.find { it.id.toString() == noteId }
+        composable("DetailScreen/{pinjamId}") { backStackEntry ->
+            val pinjamId = backStackEntry.arguments?.getString("pinjamId")
+            val barang = state.dataPinjam.find { it.id.toString() == pinjamId }
 
-            if (note != null) {
+            if (barang != null) {
                 DetailScreen(
-//                    state = state,
-//                    navController = navController,
-//                    noteId = noteId
+                    state = state,
+                    navController = navController,
+                    pinjamId = pinjamId
                 )
             } else {
                 // Handle case when note is not found
