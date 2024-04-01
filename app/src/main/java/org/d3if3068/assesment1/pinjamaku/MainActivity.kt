@@ -17,6 +17,7 @@ import org.d3if3068.assesment1.pinjamaku.navigation.NavGraph
 import org.d3if3068.assesment1.pinjamaku.ui.theme.PinjamAkuTheme
 
 class MainActivity : ComponentActivity() {
+//    Assesment 1 | Muhammad Dhafa Ramadhani | 46-04
 
     private val database by lazy {
         Room.databaseBuilder(
