@@ -4,7 +4,7 @@ import android.net.Uri
 import org.d3if3068.assesment1.pinjamaku.model.Pinjam
 
 sealed interface PinjamEvent {
-    object sortDataPinjam : PinjamEvent
+    data object SortDataPinjam : PinjamEvent
 
     data class HapusBarang(val pinjam: Pinjam) : PinjamEvent
 

@@ -7,7 +7,7 @@
     <string name="text_jenis_kelamin">Jenis Kelamin</string>
     <string name="pria">Pria</string>
     <string name="wanita">Wanita</string>
-    <string name="barang_pinjaman">Barang pinjaman</string>
+    <string name="barang_pinjaman">Barang pinjaman : </string>
     <string name="barang">barang</string>
     <string name="kontak_telephone">Kontak telephone</string>
     <string name="telephone">Telephone</string>
@@ -15,4 +15,24 @@
     <string name="tanggal_peminjaman">Tanggal Peminjaman</string>
     <string name="save">save</string>
     <string name="foto">Foto</string>
+    <string name="logo">Logo</string>
+    <string name="foto_produk">Foto Produk</string>
+    <string name="hari">hari</string>
+    <string name="deskripsi">Deskripsi :</string>
+    <string name="text_kontak">"Kontak : "</string>
+    <string name="tanggal_pinjam">"Tanggal pinjam : "</string>
+    <string name="tanggal_tempo">"Tanggal tempo : "</string>
+    <string name="produk_tidak_ditemukan">Produk tidak ditemukan</string>
+    <string name="catatan_tidak_ditemukan">Catatan tidak ditemukan</string>
+    <string name="fitur_ini_masih_tahap_pengembangan">Fitur Ini Masih Tahap Pengembangan!</string>
+    <string name="anda_yakin_tetap_ingin_mengupload_gambar">Anda yakin tetap ingin mengupload gambar?</string>
+    <string name="ya">Ya</string>
+    <string name="batal">Batal</string>
+    <string name="kalender">kalender</string>
+    <string name="tanggal_pengembalian">Tanggal Pengembalian</string>
+    <string name="foto_barang">"Foto Barang "</string>
+    <string name="tidak_boleh_kosong">tidak boleh kosong</string>
+    <string name="info_lanjut">Klik Untuk melihat informasinya....</string>
+    <string name="tambahkan_data_baru">Tambahkan Data Baru</string>
+    <string name="hapus">Hapus</string>
 </resources>

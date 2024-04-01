@@ -52,7 +52,7 @@ fun MainScreen(
                 title = {
                     Image(
                         painter = painterResource(id = R.drawable.logo),
-                        contentDescription = "Logo",
+                        contentDescription = stringResource(id = R.string.logo),
                         Modifier.size(130.dp)
                     )
                 },
@@ -68,7 +68,7 @@ fun MainScreen(
                     }) {
                         Image(
                             painter = painterResource(id = R.drawable.tambahobjputih),
-                            contentDescription = "tambah orang",
+                            contentDescription = stringResource(id = R.string.tambah_orang),
                             modifier = Modifier.size(35.dp)
                         )
                     }
@@ -105,7 +105,7 @@ fun MainContent(
             item {
                 Box(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Klik Untuk melihat informasinya....",
+                    text = stringResource(R.string.info_lanjut),
                     fontSize = 13.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Utama
@@ -131,7 +131,7 @@ fun TampilanDataKosong(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Tambahkan Data Baru",
+            text = stringResource(R.string.tambahkan_data_baru),
             style = TextStyle(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -144,7 +144,7 @@ fun TampilanDataKosong(navController: NavController) {
         ) {
             Image(
                 painter = painterResource(id = R.drawable.tambahobject),
-                contentDescription = "Tambahkan Data Baru",
+                contentDescription = stringResource(id = R.string.tambahkan_data_baru),
                 modifier = Modifier.size(90.dp)
             )
         }
@@ -224,7 +224,7 @@ fun DataItem(
             IconButton(onClick = { onEvent(PinjamEvent.HapusBarang(state.dataPinjam[index])) }) {
                 Icon(
                     painter = painterResource(id = R.drawable.sampah_hijau),
-                    contentDescription = "Hapus",
+                    contentDescription = stringResource(R.string.hapus),
                     modifier = Modifier.size(20.dp),
                     Utama
                 )

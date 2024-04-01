@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -21,14 +22,15 @@ class PinjamViewModel(
 
     private val isSortedByDateAdded = MutableStateFlow(true)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private var dataPeminjaman =
-        isSortedByDateAdded.flatMapLatest { sort ->
+        isSortedByDateAdded.flatMapLatest { _ ->
             dao.getDataPinjamOrderdByTitle()
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
-    val _state = MutableStateFlow(PinjamState())
+    private val _state = MutableStateFlow(PinjamState())
     val state =
-        combine(_state, isSortedByDateAdded, dataPeminjaman) { state, isSortedByDateAdded, dataPeminjaman ->
+        combine(_state, isSortedByDateAdded, dataPeminjaman) { state, _, dataPeminjaman ->
             state.copy(
                 dataPinjam = dataPeminjaman
             )
@@ -76,7 +78,7 @@ class PinjamViewModel(
                 }
             }
 
-            PinjamEvent.sortDataPinjam -> {
+            PinjamEvent.SortDataPinjam -> {
                 isSortedByDateAdded.value = !isSortedByDateAdded.value
             }
 

@@ -108,7 +108,7 @@ fun InputScreen(
                 title = {
                     Image(
                         painter = painterResource(id = R.drawable.logo),
-                        contentDescription = "Logo",
+                        contentDescription = stringResource(id = R.string.logo),
                         Modifier.size(130.dp)
                     )
                 },
@@ -192,7 +192,7 @@ fun InputScreen(
                             )
                         }
                         Text(
-                            text = "save",
+                            text = stringResource(id = R.string.save),
                             color = Color.White,
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 16.sp,
@@ -294,19 +294,19 @@ fun ContentInput(
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text("Fitur Ini Masih Tahap Pengembangan!") },
-            text = { Text("Anda yakin tetap ingin mengupload gambar?") },
+            title = { Text(stringResource(R.string.fitur_ini_masih_tahap_pengembangan)) },
+            text = { Text(stringResource(R.string.anda_yakin_tetap_ingin_mengupload_gambar)) },
             confirmButton = {
                 Button(onClick = {
                     showDialog = false
                     launcher.launch("image/*")
                 }) {
-                    Text("Ya")
+                    Text(stringResource(R.string.ya))
                 }
             },
             dismissButton = {
                 Button(onClick = { showDialog = false }) {
-                    Text("Batal")
+                    Text(stringResource(R.string.batal))
                 }
             }
         )
@@ -399,7 +399,7 @@ fun ContentInput(
             placeholder = { Text(text = stringResource(R.string.harga), fontSize = 13.sp) },
             trailingIcon = {
                 Text(
-                    text = "/ hari",
+                    text = "/ "+ stringResource(id = R.string.hari),
                     Modifier.padding(end = 16.dp),
                     color = Color.Gray
                 )
@@ -488,7 +488,7 @@ fun ContentInput(
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.calendar),
-                    contentDescription = "kalender",
+                    contentDescription = stringResource(R.string.kalender),
                     modifier = Modifier.size(20.dp)
                 )
                 Text(
@@ -505,7 +505,7 @@ fun ContentInput(
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             Text(
-                text = "Tanggal Pengembalian",
+                text = stringResource(R.string.tanggal_pengembalian),
                 color = Utama,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp
@@ -525,7 +525,7 @@ fun ContentInput(
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.calendar),
-                    contentDescription = "kalender",
+                    contentDescription = stringResource(id = R.string.kalender),
                     modifier = Modifier.size(20.dp)
                 )
                 Text(
@@ -550,7 +550,7 @@ fun ContentInput(
                             fontWeight = FontWeight.SemiBold
                         )
                     ) {
-                        append("Foto Barang ")
+                        append(stringResource(R.string.foto_barang))
                     }
                     withStyle(
                         style = SpanStyle(
@@ -587,13 +587,13 @@ fun ContentInput(
 @Composable
 fun ErrorHint(isError: Boolean) {
     if (isError) {
-        Text(text = "tidak boleh kosong")
+        Text(text = stringResource(R.string.tidak_boleh_kosong))
     }
 }
 
 @Preview
 @Composable
-fun addBarangPreview() {
+fun AddBarangPreview() {
     val state = remember { PinjamState() }
     val navController = rememberNavController()
 

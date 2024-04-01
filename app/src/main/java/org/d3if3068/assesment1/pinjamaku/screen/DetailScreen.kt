@@ -70,7 +70,7 @@ fun DetailScreen(
                 title = {
                     Image(
                         painter = painterResource(id = R.drawable.logo),
-                        contentDescription = "Logo",
+                        contentDescription = stringResource(R.string.logo),
                         Modifier.size(130.dp)
                     )
                 },
@@ -80,9 +80,8 @@ fun DetailScreen(
             )
         }
     ) {padding ->
-//            DetailContent(note = note,Modifier.padding(padding))
         if (note != null) {
-            DetailContent(noteState = state, modifier = Modifier.padding(padding), productId = pinjamId )
+            DetailContent(pinjamState = state, modifier = Modifier.padding(padding), productId = pinjamId )
         } else {
             NotFoundContent()
         }
@@ -92,13 +91,13 @@ fun DetailScreen(
 
 @Composable
 fun DetailContent(
-    noteState: PinjamState,
+    pinjamState: PinjamState,
     productId: String?,
     modifier: Modifier
 ) {
-    val product = noteState.dataPinjam.find { it.id.toString() == productId } // Mendapatkan produk dari indeks yang diberikan
+    val product = pinjamState.dataPinjam.find { it.id.toString() == productId } // Mendapatkan produk dari indeks yang diberikan
 
-    var datePinjam = product?.tanggalPinjam
+    val datePinjam = product?.tanggalPinjam
     val dateKembali = product?.tanggalTempo
 
     // Calculate total price based on daily price and duration
@@ -133,7 +132,7 @@ fun DetailContent(
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.dummy_foto),
-                        contentDescription = "Foto Produk",
+                        contentDescription = stringResource(R.string.foto_produk),
                         Modifier.size(80.dp)
                     )
                     Column(
@@ -172,7 +171,7 @@ fun DetailContent(
                 }
                 Text(
                     modifier = Modifier.padding(top = 24.dp),
-                    text = "Rp.${product.harga} / hari",
+                    text = "Rp.${product.harga} / "+stringResource(R.string.hari),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Utama
@@ -187,7 +186,7 @@ fun DetailContent(
                                 fontWeight = FontWeight.SemiBold
                             )
                         ) {
-                            append("Barang pinjaman : ")
+                            append(stringResource(id = R.string.barang_pinjaman))
                         }
                         withStyle(
                             style = SpanStyle(
@@ -202,7 +201,7 @@ fun DetailContent(
                 )
                 Text(
                     modifier = Modifier.padding(top = 24.dp),
-                    text = "Deskripsi :",
+                    text = stringResource(R.string.deskripsi),
                     color = UtamaBerat,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold
@@ -233,7 +232,7 @@ fun DetailContent(
                                 fontWeight = FontWeight.SemiBold
                             )
                         ) {
-                            append("Kontak : ")
+                            append(stringResource(R.string.text_kontak))
                         }
                         withStyle(
                             style = SpanStyle(
@@ -256,7 +255,7 @@ fun DetailContent(
                                 fontWeight = FontWeight.SemiBold
                             )
                         ) {
-                            append("Tanggal pinjam : ")
+                            append(stringResource(R.string.tanggal_pinjam))
                         }
                         withStyle(
                             style = SpanStyle(
@@ -279,7 +278,7 @@ fun DetailContent(
                                 fontWeight = FontWeight.SemiBold
                             )
                         ) {
-                            append("Tanggal tempo : ")
+                            append(stringResource(R.string.tanggal_tempo))
                         }
                         withStyle(
                             style = SpanStyle(
@@ -298,14 +297,14 @@ fun DetailContent(
             }
         }
     } else {
-        Text("Produk tidak ditemukan")
+        Text(stringResource(R.string.produk_tidak_ditemukan))
     }
 }
 
 @Composable
 fun NotFoundContent() {
     Text(
-        text = "Catatan tidak ditemukan",
+        text = stringResource(R.string.catatan_tidak_ditemukan),
         fontSize = 18.sp,
         fontWeight = FontWeight.Bold,
         color = Color.Red,

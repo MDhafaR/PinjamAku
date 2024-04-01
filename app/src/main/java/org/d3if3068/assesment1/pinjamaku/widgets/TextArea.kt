@@ -9,12 +9,12 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import org.d3if3068.assesment1.pinjamaku.R
 import org.d3if3068.assesment1.pinjamaku.data.PinjamState
 import org.d3if3068.assesment1.pinjamaku.ui.theme.Utama
 
@@ -26,8 +26,6 @@ fun Textarea(
 
     val borderColor = if (error) Color.Red else Utama
     val placeholderColor = if (error) Color.Red else Color.Gray
-
-    val text = rememberSaveable { mutableStateOf("") }
     OutlinedTextField(
         value = state.deskripsi.value,
         onValueChange = { state.deskripsi.value = it },
@@ -36,7 +34,7 @@ fun Textarea(
             .height(150.dp)
             .padding(top = 8.dp)
             .border(width = 1.dp, color = borderColor, shape = RoundedCornerShape(4.dp)),
-        placeholder = { Text(text = "Deskripsi", color = placeholderColor) },
+        placeholder = { Text(text = stringResource(id = R.string.deskripsi), color = placeholderColor) },
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next
         )
