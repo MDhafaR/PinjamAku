@@ -2,10 +2,9 @@
     <string name="app_name">PinjamAku</string>
     <string name="kembali">kembali</string>
     <string name="label_nama">Nama</string>
-    <string name="nama_asli">Nama asli anda</string>
+    <string name="nama_asli">Nama Peminjam</string>
     <string name="tambah_orang">tambah orang</string>
     <string name="text_jenis_kelamin">Jenis Kelamin</string>
-    <string name="pria">Pria</string>
     <string name="wanita">Wanita</string>
     <string name="barang_pinjaman">Barang pinjaman : </string>
     <string name="barang">barang</string>
@@ -35,4 +34,5 @@
     <string name="info_lanjut">Klik Untuk melihat informasinya....</string>
     <string name="tambahkan_data_baru">Tambahkan Data Baru</string>
     <string name="hapus">Hapus</string>
+    <string name="pria">Pria</string>
 </resources>

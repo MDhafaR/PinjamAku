@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PinjamAku</string>
+    <string name="kembali">Back</string>
+    <string name="label_nama">Name</string>
+    <string name="nama_asli">borrowers name</string>
+    <string name="tambah_orang">add person</string>
+    <string name="text_jenis_kelamin">gender</string>
+    <string name="wanita">woman</string>
+    <string name="barang_pinjaman">borrowed item</string>
+    <string name="barang">item</string>
+    <string name="kontak_telephone">Telephone Number</string>
+    <string name="telephone">Telephone</string>
+    <string name="harga">Price</string>
+    <string name="tanggal_peminjaman">Borrowed Date</string>
+    <string name="save">Save</string>
+    <string name="foto">Photo</string>
+    <string name="logo">Logo</string>
+    <string name="foto_produk">Product Photo</string>
+    <string name="hari">Day</string>
+    <string name="deskripsi">Descrpition :</string>
+    <string name="text_kontak">Number Phone :</string>
+    <string name="tanggal_pinjam">"Borrow Date : "</string>
+    <string name="tanggal_tempo">"Due Date : "</string>
+    <string name="produk_tidak_ditemukan">Product not found</string>
+    <string name="catatan_tidak_ditemukan">Note not found</string>
+    <string name="fitur_ini_masih_tahap_pengembangan">This Feature Is Still In The Development Stage</string>
+    <string name="anda_yakin_tetap_ingin_mengupload_gambar">Are you sure you\'ll continue uploading</string>
+    <string name="ya">Yes</string>
+    <string name="batal">Cancel</string>
+    <string name="kalender">Celandar</string>
+    <string name="tanggal_pengembalian">Date of return</string>
+    <string name="foto_barang">Item Picture</string>
+    <string name="tidak_boleh_kosong">can not be empty</string>
+    <string name="info_lanjut">click to see the more information....</string>
+    <string name="tambahkan_data_baru">Add New Data</string>
+    <string name="hapus">Delete</string>
+    <string name="pria">Man</string>
+</resources>
